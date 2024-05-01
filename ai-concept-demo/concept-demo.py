@@ -45,7 +45,7 @@ def adjust_coordinates(subjects):
     for subject in subjects:
         grade = int(subject['학년'])
         semester = int(subject['학기'])
-        pos_key = (grade, semester)
+        pos_key = (semester, grade)
         if pos_key in adjusted_pos:
             adjusted_pos[pos_key].append(0)
         else:
@@ -73,9 +73,9 @@ def draw_course_structure(subjects):
         grade = int(subject['학년'])
         semester = int(subject['학기'])
         #x,y 좌표 조정
-        x = grade + adjusted_pos[(grade, semester)].pop(0)  
-        y = semester
-        G.add_node(subject['과목명'], pos=(x, y))
+        x = semester  
+        y = grade + adjusted_pos[(semester, grade)].pop(0)
+        G.add_node(subject['과목명'], pos=(x, -y+5))
         if '선수과목' in subject:
             for prereq in subject['선수과목']:
                 G.add_edge(prereq, subject['과목명'])
